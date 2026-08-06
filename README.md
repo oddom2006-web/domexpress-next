@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # DOM EXPRESS — Logistics Delivery Management System
 
 A modern full-stack logistics and parcel delivery management system built with **Next.js 14**, **React**, **TypeScript**, and **Firebase**. The application provides role-based dashboards for customers, employees, drivers, and administrators, along with real-time order tracking, notifications, invoice generation, and multilingual support.
@@ -296,3 +297,7 @@ firebase deploy
 # License
 
 This project was developed for educational purposes and can be extended into a production-ready logistics management platform.
+=======
+# domexpress-next
+here is my WCT final project
+>>>>>>> 1329595e6783619b28a7d659a71c585431497382
