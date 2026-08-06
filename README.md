@@ -1,149 +1,298 @@
-# DOM EXPRESS — Next.js + React + Firebase
+# DOM EXPRESS — Logistics Delivery Management System
 
-Full-stack logistics delivery management system converted from vanilla JS to Next.js 14 with React, TypeScript, and Firebase.
-
----
-
-## Tech Stack
-
-| Layer       | Technology                          |
-|-------------|-------------------------------------|
-| Framework   | Next.js 14 (App Router)             |
-| UI          | React 18 + CSS Modules              |
-| Language    | TypeScript                          |
-| Database    | Firebase Firestore                  |
-| Auth        | Firebase Authentication             |
-| Toasts      | react-hot-toast                     |
-| Deploy      | Firebase Hosting / Vercel           |
+A modern full-stack logistics and parcel delivery management system built with **Next.js 14**, **React**, **TypeScript**, and **Firebase**. The application provides role-based dashboards for customers, employees, drivers, and administrators, along with real-time order tracking, notifications, invoice generation, and multilingual support.
 
 ---
 
-## Project Structure
+# Features
 
-```
+## Public Website
+
+* Landing page
+* About page
+* Services
+* Pricing
+* Contact page
+* Branch locations
+* Responsive design
+
+## Customer
+
+* User registration and login
+* Create delivery orders
+* Track shipments in real time
+* View delivery history
+* Manage profile
+* Receive notifications
+
+## Employee
+
+* Manage customer orders
+* Update shipment information
+* Process delivery requests
+* Customer support workflow
+
+## Driver
+
+* View assigned deliveries
+* Update delivery status
+* Delivery history
+* Route management
+
+## Administrator
+
+* Dashboard analytics
+* User management
+* Driver management
+* Employee management
+* Branch management
+* Order management
+* System settings
+* Reports
+
+---
+
+# Tech Stack
+
+| Layer          | Technology                |
+| -------------- | ------------------------- |
+| Framework      | Next.js 14 (App Router)   |
+| UI             | React 18 + CSS Modules    |
+| Language       | TypeScript                |
+| Database       | Firebase Firestore        |
+| Authentication | Firebase Authentication   |
+| Storage        | Firebase Storage          |
+| Maps           | Leaflet                   |
+| PDF            | jsPDF                     |
+| Notifications  | react-hot-toast           |
+| Hosting        | Firebase Hosting / Vercel |
+
+---
+
+# Project Structure
+
+```text
 domexpress-next/
-├── middleware.ts                  ← Route protection (Edge)
-├── firebase.json                  ← Firebase Hosting config
-├── firestore.rules                ← Firestore security rules
-├── firestore.indexes.json         ← Composite indexes
-├── .env.local                     ← Firebase env vars
+├── firebase.json
+├── firestore.rules
+├── firestore.indexes.json
+├── middleware.ts
+├── next.config.js
+├── package.json
 └── src/
     ├── app/
-    │   ├── layout.tsx             ← Root layout (AuthProvider + Toaster)
-    │   ├── page.tsx               ← Root redirect by role
-    │   ├── auth/page.tsx          ← Login + Register
-    │   ├── customer/page.tsx      ← Customer dashboard (5 sections)
-    │   ├── admin/page.tsx         ← Admin dashboard (9 sections)
-    │   └── driver/page.tsx        ← Driver dashboard (4 sections)
+    │   ├── admin/
+    │   ├── auth/
+    │   ├── customer/
+    │   ├── driver/
+    │   ├── employee/
+    │   ├── layout.tsx
+    │   └── page.tsx
+    │
     ├── components/
-    │   ├── layout/DashboardLayout.tsx  ← Sidebar + topbar shell
-    │   └── ui/index.tsx           ← Btn, Card, Modal, StatCard, etc.
-    ├── context/AuthContext.tsx    ← Firebase Auth state + cookie
-    ├── hooks/index.ts             ← useOrders, useBranches, useNotifications
+    │   ├── layout/
+    │   ├── shared/
+    │   └── ui/
+    │
+    ├── context/
+    │   ├── AuthContext.tsx
+    │   ├── LanguageContext.tsx
+    │   └── ThemeContext.tsx
+    │
+    ├── hooks/
+    │
     ├── lib/
-    │   ├── firebase.ts            ← Firebase singleton
-    │   ├── firestore.ts           ← All Firestore CRUD helpers
-    │   └── utils.ts               ← fmtDate, fmtDateTime
-    └── types/index.ts             ← TypeScript interfaces
+    │   ├── firebase.ts
+    │   ├── firestore.ts
+    │   ├── invoice.ts
+    │   ├── route.ts
+    │   └── utils.ts
+    │
+    ├── locales/
+    │   ├── en.ts
+    │   └── km.ts
+    │
+    └── types/
 ```
 
 ---
 
-## Quick Start
+# Main Modules
+
+* Authentication
+* Role-Based Authorization
+* Order Management
+* Driver Assignment
+* Shipment Tracking
+* Branch Management
+* Employee Management
+* Customer Management
+* Notification System
+* Invoice Generation (PDF)
+* Route Calculation
+* Multi-language Support (English & Khmer)
+* Theme Support (Light/Dark)
+
+---
+
+# Quick Start
+
+## 1. Install Dependencies
 
 ```bash
-# 1. Install dependencies
 npm install
+```
 
-# 2. Start dev server
+## 2. Configure Environment Variables
+
+Create a `.env.local` file.
+
+```env
+NEXT_PUBLIC_FIREBASE_API_KEY=
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
+NEXT_PUBLIC_FIREBASE_APP_ID=
+```
+
+## 3. Run Development Server
+
+```bash
 npm run dev
+```
 
-# Open http://localhost:3000
+Open:
+
+```
+http://localhost:3000
 ```
 
 ---
 
-## Firebase Setup (one-time)
+# Firebase Setup
 
-### Step 1 — Apply Firestore Rules
-Go to **Firebase Console → Firestore → Rules** tab  
-Paste contents of `firestore.rules` → click **Publish**
+## Firestore Rules
 
-### Step 2 — Deploy Indexes
+Publish the contents of:
+
+```
+firestore.rules
+```
+
+from the Firebase Console.
+
+---
+
+## Deploy Firestore Indexes
+
 ```bash
-npm install -g firebase-tools
-firebase login
-firebase init firestore   # select your project, keep defaults
 firebase deploy --only firestore:indexes
 ```
 
-Or create manually in **Firebase Console → Firestore → Indexes**:
+---
 
-| Collection      | Field 1               | Field 2             |
-|-----------------|-----------------------|---------------------|
-| `orders`        | `assignedDriver` ASC  | `updatedAt` DESC    |
-| `orders`        | `assignedDriver` ASC  | `status` ASC        |
-| `notifications` | `uid` ASC             | `time` DESC         |
-| `notifications` | `uid` ASC             | `read` ASC          |
+## Create an Administrator
 
-### Step 3 — Create Admin Account
-1. Register on the site (creates a customer account)
-2. Go to **Firebase Console → Firestore → users** collection
-3. Find your user document → edit `role` field to `"admin"`
-4. Log out and log back in → you'll land on Admin Dashboard
+1. Register a normal account.
+2. Open Firestore.
+3. Navigate to:
 
-### Step 4 — Seed Branches
-Admin Dashboard → **Branches** → Add Branch:
-- Phnom Penh Branch
-- Siem Reap Branch
-- Battambang Branch
-- Sihanoukville Branch
-- Kampot Branch
+```
+users
+```
 
-### Step 5 — Add Drivers
-Admin Dashboard → **Driver Management** → Add Driver  
-This creates a real Firebase Auth account for the driver.
+4. Change
+
+```json
+role: "customer"
+```
+
+to
+
+```json
+role: "admin"
+```
+
+5. Log in again.
 
 ---
 
-## User Flow
+# Default User Roles
 
-```
-Customer creates order
-  → Firestore orders/{id}  (status: pending)
-  → Notification to customer
+* Customer
+* Employee
+* Driver
+* Admin
 
-Admin approves
-  → status: approved
-  → Notification to customer ✅
-
-Admin assigns driver
-  → status: assigned + driverName set
-  → Notification to customer + driver ✅
-
-Driver updates status
-  → status: pickedup / transit / delivered
-  → Notification to customer ✅
-
-Customer tracks order
-  → Reads live from Firestore
-  → Sees full history timeline ✅
-```
+Each role has its own protected dashboard and permissions.
 
 ---
 
-## Deploy
+# Order Workflow
 
-### Option A — Vercel (Easiest)
+```text
+Customer
+      │
+      ▼
+Create Order
+      │
+      ▼
+Employee Reviews
+      │
+      ▼
+Admin Approval
+      │
+      ▼
+Assign Driver
+      │
+      ▼
+Driver Pickup
+      │
+      ▼
+In Transit
+      │
+      ▼
+Delivered
+      │
+      ▼
+Order Completed
+```
+
+Every status update automatically synchronizes with Firestore and is reflected across all dashboards.
+
+---
+
+# Deployment
+
+## Vercel
+
 ```bash
-npm install -g vercel
 vercel
-# Follow prompts — live in ~30 seconds
 ```
 
-### Option B — Firebase Hosting (Same project)
+---
+
+## Firebase Hosting
+
 ```bash
-firebase experiments:enable webframeworks
 firebase deploy
 ```
 
+---
+
+# Future Improvements
+
+* Email notifications
+* SMS notifications
+* Online payment integration
+* Live GPS tracking
+* Customer support chat
+* Analytics dashboard
+* Mobile application
+
+---
+
+# License
+
+This project was developed for educational purposes and can be extended into a production-ready logistics management platform.
