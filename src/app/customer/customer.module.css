@@ -1,0 +1,94 @@
+/* src/app/customer/customer.module.css */
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+/* ── TABLE ── */
+.table { width:100%; border-collapse:collapse; font-size:13.5px; }
+.table thead th {
+  text-align:left; padding:10px 14px;
+  background:var(--bg3); color:var(--text2);
+  font-size:11px; font-weight:700; letter-spacing:1px;
+  text-transform:uppercase; font-family:var(--font-mono);
+  border-bottom:1px solid var(--border); white-space:nowrap;
+}
+.table tbody tr { border-bottom:1px solid var(--border); transition:background .1s; }
+.table tbody tr:hover { background:var(--bg3); }
+.table tbody tr:last-child { border-bottom:none; }
+.table td { padding:11px 14px; vertical-align:middle; }
+
+.orderId { font-family:var(--font-mono); font-size:12px; color:var(--accent); letter-spacing:.5px; }
+.mono    { font-family:var(--font-mono); font-size:11px; color:var(--text2); }
+.muted   { font-size:12px; color:var(--text2); }
+
+/* ── CREATE ORDER FORM ── */
+.formCard { max-width:700px; margin:0 auto; }
+.formGrid {
+  display:grid; grid-template-columns:1fr 1fr; gap:14px;
+}
+.colSpan2 { grid-column:span 2; }
+.input {
+  background:var(--bg3); border:1px solid var(--border2);
+  border-radius:var(--radius); padding:10px 14px;
+  color:var(--text); font-family:var(--font); font-size:14px;
+  outline:none; transition:border-color .2s; width:100%;
+}
+.input:focus { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-dim); }
+.input::placeholder { color:var(--text3); }
+
+/* ── TRACK ── */
+.trackBox   { max-width:680px; margin:0 auto; }
+.trackTitle { font-size:17px; font-weight:700; font-family:var(--font-mono); margin-bottom:6px; }
+.trackRow   { display:flex; gap:10px; margin-bottom:4px; }
+.trackInput {
+  flex:1; background:var(--bg2); border:1px solid var(--border2);
+  border-radius:var(--radius); padding:12px 16px; color:var(--text);
+  font-family:var(--font-mono); font-size:14px; outline:none; letter-spacing:1px;
+}
+.trackInput:focus { border-color:var(--accent); }
+.trackNotFound {
+  margin-top:12px; padding:12px 16px;
+  background:var(--red-dim); border:1px solid rgba(239,68,68,.2);
+  border-radius:var(--radius); color:var(--red); font-size:14px;
+}
+.trackResult { margin-top:20px; }
+
+/* ── NOTIFICATIONS ── */
+.notifItem {
+  display:flex; gap:14px; align-items:flex-start;
+  padding:14px 20px; border-bottom:1px solid var(--border);
+  transition:background .12s;
+}
+.notifItem:hover { background:var(--bg3); }
+.notifItem:last-child { border-bottom:none; }
+.notifUnread { background:rgba(240,165,0,.04); border-left:2px solid var(--accent); padding-left:18px; }
+.notifIcon  { width:36px; height:36px; border-radius:10px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:17px; }
+.notifTitle { font-size:14px; font-weight:600; }
+.notifBody  { font-size:13px; color:var(--text2); margin-top:2px; }
+.notifTime  { font-size:11px; color:var(--text3); margin-top:4px; font-family:var(--font-mono); }
+
+/* ── PROFILE ── */
+.profileHeader { display:flex; align-items:center; gap:16px; margin-bottom:24px; }
+.bigAvatar {
+  width:68px; height:68px; background:var(--accent); border-radius:16px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:30px; font-weight:700; color:#000; flex-shrink:0;
+  box-shadow:0 0 0 6px var(--accent-dim);
+}
+.profileName  { font-size:22px; font-weight:700; }
+.profileEmail { font-size:14px; color:var(--text2); margin-top:4px; }
+.profileGrid  { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.profileLabel { font-size:11px; color:var(--text3); letter-spacing:.8px; text-transform:uppercase; font-family:var(--font-mono); margin-bottom:4px; }
+.divider      { height:1px; background:var(--border); margin:20px 0; }
+.sectionLabel { font-size:11px; font-weight:700; letter-spacing:1.5px; color:var(--text3); margin-bottom:14px; font-family:var(--font-mono); }
+
+@media (max-width:768px) {
+  .statsGrid   { grid-template-columns:1fr 1fr; }
+  .formGrid    { grid-template-columns:1fr; }
+  .colSpan2    { grid-column:span 1; }
+  .profileGrid { grid-template-columns:1fr; }
+}

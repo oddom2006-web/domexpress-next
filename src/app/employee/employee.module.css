@@ -1,0 +1,83 @@
+/* src/app/driver/driver.module.css */
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+/* ── TABLE ── */
+.table { width:100%; border-collapse:collapse; font-size:13.5px; }
+.table thead th {
+  text-align:left; padding:10px 14px;
+  background:var(--bg3); color:var(--text2);
+  font-size:11px; font-weight:700; letter-spacing:1px;
+  text-transform:uppercase; font-family:var(--font-mono);
+  border-bottom:1px solid var(--border); white-space:nowrap;
+}
+.table tbody tr { border-bottom:1px solid var(--border); transition:background .1s; }
+.table tbody tr:hover { background:var(--bg3); }
+.table tbody tr:last-child { border-bottom:none; }
+.table td { padding:11px 14px; vertical-align:middle; }
+
+.orderId { font-family:var(--font-mono); font-size:12px; color:var(--accent); }
+.mono    { font-family:var(--font-mono); font-size:11px; color:var(--text2); }
+.muted   { font-size:12px; color:var(--text2); }
+
+/* ── UPDATE MODAL ── */
+.updateInfo {
+  background: var(--bg3); border-radius: var(--radius);
+  padding: 14px; margin-bottom: 14px;
+}
+.infoLabel { font-size:11px; color:var(--text3); letter-spacing:.8px; text-transform:uppercase; font-family:var(--font-mono); margin-bottom:6px; }
+.infoName  { font-size:15px; font-weight:600; }
+.infoSub   { font-size:13px; color:var(--text2); margin-top:2px; }
+
+/* ── FORM ── */
+.field { display:flex; flex-direction:column; gap:6px; }
+.fieldLabel { font-size:12.5px; color:var(--text2); font-weight:500; }
+.input {
+  background:var(--bg3); border:1px solid var(--border2);
+  border-radius:var(--radius); padding:10px 14px;
+  color:var(--text); font-family:var(--font); font-size:14px;
+  outline:none; transition:border-color .2s; width:100%;
+}
+.input:focus { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-dim); }
+.input::placeholder { color:var(--text3); }
+
+/* ── PROFILE ── */
+.formCard { max-width:680px; margin:0 auto; }
+.profileHeader { display:flex; align-items:center; gap:16px; margin-bottom:24px; }
+.bigAvatar {
+  width:68px; height:68px; background:var(--accent); border-radius:16px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:30px; font-weight:700; color:#000; flex-shrink:0;
+  box-shadow:0 0 0 6px var(--accent-dim);
+}
+.profileName  { font-size:22px; font-weight:700; }
+.profileEmail { font-size:14px; color:var(--text2); margin-top:4px; }
+.profileGrid  { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.profileLabel { font-size:11px; color:var(--text3); letter-spacing:.8px; text-transform:uppercase; font-family:var(--font-mono); margin-bottom:4px; }
+.divider      { height:1px; background:var(--border); margin:20px 0; }
+
+/* ── MINI STATS ── */
+.miniStats { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.miniStat  { background:var(--bg3); border-radius:var(--radius); padding:16px; text-align:center; }
+.miniStatVal   { font-size:28px; font-weight:700; font-family:var(--font-mono); line-height:1; }
+.miniStatLabel { font-size:12px; color:var(--text2); margin-top:6px; }
+
+/* ── FORM GRID ── */
+.formGrid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .statsGrid  { grid-template-columns: repeat(2, 1fr); }
+  .formGrid   { grid-template-columns: 1fr; }
+  .profileGrid{ grid-template-columns: 1fr; }
+  .miniStats  { grid-template-columns: repeat(3, 1fr); }
+}
+/* Added — used by employee/page.tsx but not present in driver.module.css */
+.colSpan2 { grid-column: span 2; }
+.hint { font-size: 13px; color: var(--text2); margin-bottom: 16px; }
+.hint strong { color: var(--blue); }

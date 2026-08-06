@@ -1,0 +1,73 @@
+/* src/components/ui/LoadingScreen.module.css */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background: var(--bg);
+  animation: domFadeIn .25s ease;
+}
+
+.logoWrap {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: var(--accent-dim);
+  border: 2px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: domPulse 1.6s ease-in-out infinite;
+}
+
+.logo {
+  width: 34px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.brand {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: 1px;
+  color: var(--text);
+}
+
+.brand span {
+  color: var(--accent);
+}
+
+.spinner {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 3px solid var(--border2);
+  border-top-color: var(--accent);
+  animation: domSpin .7s linear infinite;
+}
+
+.message {
+  font-size: 13px;
+  color: var(--text3);
+  font-family: var(--font-mono);
+  margin-top: 2px;
+}
+
+@keyframes domPulse {
+  0%, 100% { transform: scale(1);    }
+  50%      { transform: scale(1.08); }
+}
+
+@keyframes domSpin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes domFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}

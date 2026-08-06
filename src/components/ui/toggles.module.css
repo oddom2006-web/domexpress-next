@@ -1,0 +1,15 @@
+/* src/components/ui/toggles.module.css */
+.toggleBtn {
+  display: flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; flex-shrink: 0;
+  background: var(--bg3); border: 1px solid var(--border2);
+  border-radius: 8px; color: var(--text);
+  font-size: 14px; font-weight: 700;
+  font-family: var(--font-mono);
+  cursor: pointer; transition: all .15s;
+}
+.toggleBtn:hover {
+  background: var(--bg4);
+  border-color: var(--accent);
+  color: var(--accent);
+}
