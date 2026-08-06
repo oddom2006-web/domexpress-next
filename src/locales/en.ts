@@ -1,6 +1,5 @@
-// src/locales/en.ts
 // Add new keys here as you translate more of the app.
-// Keep this file the "source of truth" — km.ts must mirror every key.
+// Keep this file the "source of truth" km.ts must mirror every key.
 export const en = {
 // Homepage
   'homepage.platform':    "LOGISTICS PLATFORM",

@@ -1,5 +1,4 @@
 'use client';
-// src/app/admin/page.tsx
 import dynamic from 'next/dynamic';
 const DomMap = dynamic(() => import('@/components/shared/DomMap'), {
   ssr: false,

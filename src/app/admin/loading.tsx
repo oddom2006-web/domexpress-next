@@ -1,4 +1,3 @@
-// src/app/admin/loading.tsx
 import LoadingScreen from '@/components/ui/LoadingScreen';
 
 export default function Loading() {

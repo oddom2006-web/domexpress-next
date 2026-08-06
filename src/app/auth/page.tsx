@@ -1,5 +1,4 @@
 'use client';
-// src/app/auth/page.tsx
 import { useState }    from 'react';
 import { useRouter }   from 'next/navigation';
 import { useAuth }     from '@/context/AuthContext';

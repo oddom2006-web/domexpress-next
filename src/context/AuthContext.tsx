@@ -1,5 +1,4 @@
 'use client';
-// src/context/AuthContext.tsx
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import {
   onAuthStateChanged,

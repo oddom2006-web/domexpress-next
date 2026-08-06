@@ -1,5 +1,4 @@
 'use client';
-// src/app/customer/page.tsx
 import dynamic from 'next/dynamic';
   const LocationPicker = dynamic(() => import('@/components/shared/LocationPicker'), {
     ssr: false,

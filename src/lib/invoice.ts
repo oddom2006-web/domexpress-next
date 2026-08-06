@@ -1,4 +1,3 @@
-// src/lib/invoice.ts
 import jsPDF from 'jspdf';
 import type { Order } from '@/types';
 import { STATUS_LABELS, PAYMENT_LABELS, SERVICE_TYPE_LABELS } from '@/types';

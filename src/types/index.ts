@@ -1,5 +1,3 @@
-// src/types/index.ts
-
 export type UserRole = 'admin' | 'driver' | 'customer' | 'employee';
 
 export type OrderStatus =

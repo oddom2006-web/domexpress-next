@@ -1,4 +1,3 @@
-// src/locales/km.ts
 // Must contain the exact same keys as en.ts (TypeScript will error if one is missing).
 import type { TranslationKey } from './en';
 

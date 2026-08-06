@@ -1,5 +1,3 @@
-// src/lib/utils.ts
-
 export function fmtDate(iso?: string | null): string {
   if (!iso) return '–';
   try {

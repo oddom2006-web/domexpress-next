@@ -1,5 +1,4 @@
-// src/lib/firestore.ts
-// All Firestore read/write helpers — used by React hooks and components
+// All Firestore read/write helpers  used by React hooks and components
 import {
   collection, doc,
   getDoc, getDocs, addDoc, setDoc, updateDoc, deleteDoc,
