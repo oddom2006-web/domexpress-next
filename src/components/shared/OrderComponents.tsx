@@ -7,10 +7,11 @@
 import dynamic from 'next/dynamic';
   const DomMap = dynamic(() => import('./DomMap'), { ssr: false });
 import { useLanguage }  from '@/context/LanguageContext';
-import { StatusBadge }  from '@/components/ui';
+import { Btn, StatusBadge }  from '@/components/ui';
 import { fmtDateTime }  from '@/lib/utils';
 import type { Order }   from '@/types';
 import styles from './OrderComponents.module.css';
+import { downloadInvoice } from '@/lib/invoice';
 
 const PAYMENT_ICONS: Record<string, string> = { cod: '💵', qr: '📱', card: '💳' };
 
@@ -83,6 +84,9 @@ export function OrderDetailBody({ order }: { order: Order }) {
 
   return (
     <div>
+      <div style={{ display:'flex', justifyContent:'flex-end', marginBottom:12 }}>
+        <Btn size="sm" variant="secondary" onClick={() => downloadInvoice(order)}>🧾 {t('customer.invoice.download')}</Btn>
+      </div>
       <div className={styles.profileGrid} style={{ marginBottom:16 }}>
         {rows.map(([l, v], i) => (
           <div key={i}>
