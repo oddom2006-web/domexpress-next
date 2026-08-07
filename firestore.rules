@@ -52,5 +52,15 @@ service cloud.firestore {
       allow update: if isLoggedIn() && resource.data.uid == request.auth.uid;
       allow delete: if isLoggedIn() && resource.data.uid == request.auth.uid;
     }
+
+    // ── CONTACT MESSAGES ─────────────────────────────────────────────────
+    // Anyone (even logged-out visitors) can submit a contact message.
+    // Only admins can read them back.
+    match /messages/{messageId} {
+      allow create: if true;
+      allow read:   if isAdmin();
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
   }
 }

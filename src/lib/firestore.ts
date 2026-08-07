@@ -14,6 +14,7 @@ const col = {
   orders:        () => collection(db, 'orders'),
   branches:      () => collection(db, 'branches'),
   notifications: () => collection(db, 'notifications'),
+  messages:      () => collection(db, 'messages'),
 };
 
 // ── HELPERS ───────────────────────────────────────────────────────────────────
@@ -210,4 +211,15 @@ export async function getUnreadCount(uid: string): Promise<number> {
   const q    = query(col.notifications(), where('uid', '==', uid));
   const snap = await getDocs(q);
   return snap.docs.filter(d => !d.data().read).length;
+}
+
+// ── CONTACT MESSAGES ───────────────────────────────────────────────
+export async function submitContactMessage(data: {
+  name: string; phone: string; email: string; message: string;
+}) {
+  await addDoc(col.messages(), {
+    ...data,
+    createdAt: now(),
+    read: false,
+  });
 }

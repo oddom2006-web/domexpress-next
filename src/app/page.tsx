@@ -6,6 +6,7 @@ import { ThemeToggle, LanguageToggle } from '@/components/ui/Toggles';
 import { useLanguage } from '@/context/LanguageContext';
 import LoadingScreen from '@/components/ui/LoadingScreen';
 import { Truck, Lock, MapPin, } from 'lucide-react';
+import { submitContactMessage } from '@/lib/firestore';
 
 const BOOK_FORM = 'https://forms.gle/V8r7aFGMhThujFmJ8';
 
@@ -159,16 +160,28 @@ export default function HomePage() {
   function closeMobileNav() { setMenuOpen(false); }
 
 
-  function handleContact(e: React.FormEvent<HTMLFormElement>) {
+  async function handleContact(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
+    const fd = new FormData(form);
+
     setSending(true);
-    setTimeout(() => {
-      setSending(false);
+    try {
+      await submitContactMessage({
+        name: String(fd.get('name') ?? ''),
+        phone: String(fd.get('phone') ?? ''),
+        email: String(fd.get('email') ?? ''),
+        message: String(fd.get('message') ?? ''),
+      });
       setFormSent(true);
       form.reset();
       setTimeout(() => setFormSent(false), 3000);
-    }, 900);
+    } catch (err) {
+      console.error('Contact form failed:', err);
+      // optionally: setFormError(true) and show an error state
+    } finally {
+      setSending(false);
+    }
   }
 
   if (!splashDone) return <LoadingScreen />;
