@@ -48,7 +48,10 @@ export default function LocationPicker({
 
   return (
     <div>
-      <div style={{ height, borderRadius: 10, overflow: 'hidden', border: '1px solid var(--border2)', marginBottom: 8 }}>
+      <div style={{
+        height, borderRadius: 10, overflow: 'hidden', border: '1px solid var(--border2)', marginBottom: 8,
+        position: 'relative', isolation: 'isolate', zIndex: 0,
+      }}>
         <MapContainer center={center} zoom={lat != null ? 15 : 12} style={{ height: '100%', width: '100%' }} scrollWheelZoom>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

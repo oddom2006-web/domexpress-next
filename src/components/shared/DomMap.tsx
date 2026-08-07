@@ -61,7 +61,10 @@ export default function DomMap({ points, polyline = false, height = 360 }: DomMa
   const positions: [number, number][] = valid.map(p => [p.lat, p.lng]);
 
   return (
-    <div style={{ height, borderRadius: 12, overflow: 'hidden', border: '1px solid var(--border2)' }}>
+    <div style={{
+      height, borderRadius: 12, overflow: 'hidden', border: '1px solid var(--border2)',
+      position: 'relative', isolation: 'isolate', zIndex: 0,
+    }}>
       <MapContainer center={center} zoom={valid.length > 1 ? 8 : 12} style={{ height: '100%', width: '100%' }} scrollWheelZoom>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

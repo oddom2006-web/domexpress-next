@@ -610,12 +610,10 @@ img {
 }
 
 @media (max-width: 900px) {
-
   .home-page .desktop-nav,
-  .home-page .header-actions .header-phone {
+  .home-page .header-actions {
     display: none;
   }
-
   .home-page .hamburger {
     display: flex;
   }
@@ -1557,4 +1555,13 @@ img {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* ── LEAFLET Z-INDEX CONTAINMENT ──────────────────────────────────────
+   Leaflet's own CSS gives its panes/controls z-index up to 1000, which
+   otherwise beats our sidebar (100) and mobile overlay (99). Isolating
+   the container keeps all of that stacking inside the map itself. */
+.leaflet-container {
+  isolation: isolate;
+  z-index: 0;
 }
