@@ -1,4 +1,3 @@
-// src/hooks/index.ts
 // All React hooks that wrap Firestore calls
 'use client';
 import { useState, useEffect, useRef, useCallback } from 'react';

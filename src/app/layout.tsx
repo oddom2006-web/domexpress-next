@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { AuthProvider }     from '@/context/AuthContext';
-import { ThemeProvider }    from '@/context/ThemeContext';
+import { AuthProvider } from '@/context/AuthContext';
+import { ThemeProvider } from '@/context/ThemeContext';
 import { LanguageProvider } from '@/context/LanguageContext';
-import { Toaster }          from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 
 export const metadata: Metadata = {
-  title:       'DOM EXPRESS — Logistics',
-  
+  title: 'DOM EXPRESS — Logistics',
+
   description: 'Cambodia\'s Trusted Logistics Platform',
   icons: {
     icon: "/assets/images/logo.png",
@@ -43,12 +43,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 toastOptions={{
                   style: {
                     background: 'var(--bg2)',
-                    color:      'var(--text)',
-                    border:     '1px solid var(--border2)',
+                    color: 'var(--text)',
+                    border: '1px solid var(--border2)',
                     fontFamily: 'var(--font)',
                   },
                   success: { iconTheme: { primary: '#22c55e', secondary: '#000' } },
-                  error:   { iconTheme: { primary: '#ef4444', secondary: '#fff' } },
+                  error: { iconTheme: { primary: '#ef4444', secondary: '#fff' } },
                 }}
               />
             </AuthProvider>

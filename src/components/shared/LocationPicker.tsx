@@ -1,8 +1,4 @@
 'use client';
-// src/components/shared/LocationPicker.tsx
-//
-// Same SSR caveat as DomMap.tsx — always load via next/dynamic with
-// { ssr: false }, never import directly.
 import { useState } from 'react';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';

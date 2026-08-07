@@ -1,17 +1,10 @@
 'use client';
-// src/components/shared/DomMap.tsx
-//
-// IMPORTANT: this component touches `window`/`document` at import time
-// (Leaflet's marker-icon setup), which breaks Next.js server-side rendering.
-// Never import this directly — always load it with next/dynamic and
-// { ssr: false } from whichever page uses it. See the usage examples
-// wherever this is wired in.
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 // Leaflet's default marker icon paths break under Next.js/webpack bundling
-// (the images resolve to the wrong URL) — this points them at Leaflet's own
+// (the images resolve to the wrong URL) this points them at Leaflet's own
 // CDN-hosted copies instead, which always works regardless of bundler config.
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({

@@ -1,11 +1,16 @@
+// src/lib/route.ts
 import type { Order, Branch } from '@/types';
 import { haversineKm } from './utils';
 
 export interface RouteStop {
   order: Order;
-  clusterBranch: string;        // the branch used to represent this stop's approximate location
-  stopNumber: number;           // 1-based position in cluster visit order
-  legDistanceKm: number | null; // distance from the previous cluster (only set on a cluster's first stop)
+  clusterKey: string;           // branch name, or a pin-based key for precisely-located stops
+  clusterLabel: string;         // human-readable label for this stop's location
+  lat: number | null;           // resolved coordinates for this stop — use these directly,
+  lng: number | null;           // don't re-look-up by branch name (breaks for pinned stops)
+  stopNumber: number;           // 1-based position in visit order
+  legDistanceKm: number | null; // distance from the previous stop (only set on a cluster's first stop)
+  precise: boolean;             // true if this stop used the order's own pin rather than a branch
 }
 
 export interface RouteResult {
@@ -16,11 +21,20 @@ export interface RouteResult {
 
 /**
  * Straight-line route approximation — NOT real road routing (no traffic, no actual
- * street distance). Since individual delivery addresses don't have coordinates
- * (only branches do), orders are grouped by destination branch first, then those
- * branch-groups are visited in greedy-nearest-neighbor order starting from the
- * driver's home branch. Stops within the same branch-group keep their original
- * relative order, since there's no finer-grained location data to sort by.
+ * street distance).
+ *
+ * Location precedence per order, most accurate first:
+ *   1. The order's own receiver pin (receiverLat/receiverLng), if the customer or
+ *      staff dropped one — each such order becomes its OWN stop, not grouped with
+ *      others, since a pin means we actually know exactly where it goes.
+ *   2. Otherwise, the destination branch (receiverBranch, falling back to branch) —
+ *      orders sharing a branch and lacking a pin get grouped into one stop, same as
+ *      before pins existed.
+ *
+ * Stops are then visited in greedy-nearest-neighbor order starting from the
+ * driver's home branch. This mixes precise and branch-level stops naturally —
+ * an order with a pin nearby gets visited in its actual position along the route,
+ * not lumped in with everything headed to the same branch.
  */
 export function optimizeRoute(
   orders: Order[],
@@ -30,44 +44,61 @@ export function optimizeRoute(
   const branchByName = new Map(branches.map(b => [b.name, b]));
   const start = branchByName.get(startBranchName);
 
-  // Group orders by destination branch, preserving original order within each group
-  const clusters = new Map<string, Order[]>();
-  for (const o of orders) {
-    const dest = o.receiverBranch || o.branch || 'Unknown';
-    if (!clusters.has(dest)) clusters.set(dest, []);
-    clusters.get(dest)!.push(o);
-  }
-  const clusterNames = Array.from(clusters.keys());
+  // Build one cluster per stop location. Pinned orders each get their own cluster
+  // (key based on rounded coordinates, so two orders pinned to virtually the same
+  // spot still share one stop); unpinned orders cluster by destination branch.
+  const clusters = new Map<string, { label: string; lat: number; lng: number | null; orders: Order[]; precise: boolean }>();
 
+  for (const o of orders) {
+    const hasPin = o.receiverLat != null && o.receiverLng != null;
+
+    if (hasPin) {
+      const key = `pin:${o.receiverLat!.toFixed(4)},${o.receiverLng!.toFixed(4)}`;
+      if (!clusters.has(key)) {
+        clusters.set(key, { label: o.receiverName || o.address || 'Pinned stop', lat: o.receiverLat!, lng: o.receiverLng!, orders: [], precise: true });
+      }
+      clusters.get(key)!.orders.push(o);
+    } else {
+      const branchName = o.receiverBranch || o.branch || 'Unknown';
+      const key = `branch:${branchName}`;
+      if (!clusters.has(key)) {
+        const b = branchByName.get(branchName);
+        clusters.set(key, { label: branchName, lat: b?.lat ?? (null as any), lng: b?.lng ?? null, orders: [], precise: false });
+      }
+      clusters.get(key)!.orders.push(o);
+    }
+  }
+
+  const clusterKeys = Array.from(clusters.keys());
   const hasCoords =
     start?.lat != null && start?.lng != null &&
-    clusterNames.every(name => {
-      const b = branchByName.get(name);
-      return b?.lat != null && b?.lng != null;
+    clusterKeys.every(k => {
+      const c = clusters.get(k)!;
+      return c.lat != null && c.lng != null;
     });
 
   let visitOrder: string[];
   if (hasCoords) {
-    // Greedy nearest-neighbor over cluster branches
-    const remaining = new Set(clusterNames);
+    // Greedy nearest-neighbor over all clusters (pinned stops and branch stops alike)
+    const remaining = new Set(clusterKeys);
     let curLat = start!.lat!, curLng = start!.lng!;
     visitOrder = [];
     while (remaining.size) {
       let nearest: string | null = null;
       let nearestDist = Infinity;
-      for (const name of remaining) {
-        const b = branchByName.get(name)!;
-        const d = haversineKm(curLat, curLng, b.lat!, b.lng!);
-        if (d < nearestDist) { nearestDist = d; nearest = name; }
+      for (const key of remaining) {
+        const c = clusters.get(key)!;
+        const d = haversineKm(curLat, curLng, c.lat!, c.lng!);
+        if (d < nearestDist) { nearestDist = d; nearest = key; }
       }
       visitOrder.push(nearest!);
       remaining.delete(nearest!);
-      const b = branchByName.get(nearest!)!;
-      curLat = b.lat!; curLng = b.lng!;
+      const c = clusters.get(nearest!)!;
+      curLat = c.lat!; curLng = c.lng!;
     }
   } else {
     // No usable coordinates anywhere — keep clusters in first-seen order, unordered
-    visitOrder = clusterNames;
+    visitOrder = clusterKeys;
   }
 
   const stops: RouteStop[] = [];
@@ -75,21 +106,25 @@ export function optimizeRoute(
   let totalDistanceKm: number | null = hasCoords ? 0 : null;
   let stopNumber = 0;
 
-  for (const clusterName of visitOrder) {
-    const b = branchByName.get(clusterName);
+  for (const key of visitOrder) {
+    const c = clusters.get(key)!;
     let legDistance: number | null = null;
-    if (hasCoords && prevLat != null && prevLng != null && b?.lat != null && b?.lng != null) {
-      legDistance = Math.round(haversineKm(prevLat, prevLng, b.lat, b.lng) * 10) / 10;
+    if (hasCoords && prevLat != null && prevLng != null && c.lat != null && c.lng != null) {
+      legDistance = Math.round(haversineKm(prevLat, prevLng, c.lat, c.lng) * 10) / 10;
       totalDistanceKm = (totalDistanceKm ?? 0) + legDistance;
-      prevLat = b.lat; prevLng = b.lng;
+      prevLat = c.lat; prevLng = c.lng;
     }
-    clusters.get(clusterName)!.forEach((order, i) => {
+    c.orders.forEach((order, i) => {
       stopNumber++;
       stops.push({
         order,
-        clusterBranch: clusterName,
+        clusterKey: key,
+        clusterLabel: c.label,
+        lat: c.lat,
+        lng: c.lng,
         stopNumber,
         legDistanceKm: i === 0 ? legDistance : 0,
+        precise: c.precise,
       });
     });
   }

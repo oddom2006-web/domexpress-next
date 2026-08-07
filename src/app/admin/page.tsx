@@ -874,11 +874,11 @@ function AdminBranches() {
       </Modal>
       {branchPoints.length > 0 && (
         <div style={{ marginBottom: 16 }}>
-          <DomMap 
+          <DomMap
             // This forces a clean remount when points are added/removed
-            key={`admin-branches-map-${branchPoints.length}`} 
-            points={branchPoints} 
-            height={280} 
+            key={`admin-branches-map-${branchPoints.length}`}
+            points={branchPoints}
+            height={280}
           />
         </div>
       )}

@@ -1,13 +1,13 @@
 'use client';
-import { useState }    from 'react';
-import { useRouter }   from 'next/navigation';
-import { useAuth }     from '@/context/AuthContext';
-import toast           from 'react-hot-toast';
-import styles          from './auth.module.css';
-import Image           from 'next/image';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
+import toast from 'react-hot-toast';
+import styles from './auth.module.css';
+import Image from 'next/image';
 import { ThemeToggle, LanguageToggle } from '@/components/ui/Toggles';
 import { useLanguage } from '@/context/LanguageContext';
-import LoadingScreen   from '@/components/ui/LoadingScreen';
+import LoadingScreen from '@/components/ui/LoadingScreen';
 
 type Tab = 'login' | 'register';
 
@@ -15,15 +15,15 @@ export default function AuthPage() {
   const { login, register, user, resetPassword, loginWithGoogle } = useAuth();
   const { t } = useLanguage();
   const router = useRouter();
-  const [tab,        setTab]        = useState<Tab>('login');
-  const [loading,    setLoading]    = useState(false);
+  const [tab, setTab] = useState<Tab>('login');
+  const [loading, setLoading] = useState(false);
   const [forgotMode, setForgotMode] = useState(false);
-  const [resetSent,  setResetSent]  = useState(false);
+  const [resetSent, setResetSent] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
 
   // Already logged in → redirect
   if (user) {
-    const map: Record<string, string> = { admin:'/admin', driver:'/driver', customer:'/customer', employee:'/employee' };
+    const map: Record<string, string> = { admin: '/admin', driver: '/driver', customer: '/customer', employee: '/employee' };
     router.replace(map[user.role] ?? '/auth');
     return <LoadingScreen message={t('auth.loggingIn')} />;
   }
@@ -31,9 +31,9 @@ export default function AuthPage() {
   /* ── LOGIN ── */
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const fd    = new FormData(e.currentTarget);
+    const fd = new FormData(e.currentTarget);
     const email = fd.get('email') as string;
-    const pw    = fd.get('password') as string;
+    const pw = fd.get('password') as string;
     setLoading(true);
     try {
       await login(email, pw);
@@ -52,12 +52,12 @@ export default function AuthPage() {
   /* ── REGISTER ── */
   async function handleRegister(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const fd  = new FormData(e.currentTarget);
-    const name  = fd.get('name')     as string;
-    const email = fd.get('email')    as string;
-    const phone = fd.get('phone')    as string;
-    const pw    = fd.get('password') as string;
-    if (!name)         { toast.error('Please enter your name.'); return; }
+    const fd = new FormData(e.currentTarget);
+    const name = fd.get('name') as string;
+    const email = fd.get('email') as string;
+    const phone = fd.get('phone') as string;
+    const pw = fd.get('password') as string;
+    if (!name) { toast.error('Please enter your name.'); return; }
     if (pw.length < 6) { toast.error('Password needs 6+ characters.'); return; }
     setLoading(true);
     try {
@@ -66,7 +66,7 @@ export default function AuthPage() {
     } catch (err: any) {
       let msg = err.message ?? 'Registration failed';
       if (err.code === 'auth/email-already-in-use') msg = 'Email already registered.';
-      if (err.code === 'auth/invalid-email')        msg = 'Invalid email address.';
+      if (err.code === 'auth/invalid-email') msg = 'Invalid email address.';
       toast.error(msg);
     } finally { setLoading(false); }
   }
@@ -74,7 +74,7 @@ export default function AuthPage() {
   /* ── FORGOT PASSWORD ── */
   async function handleForgotPassword(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const fd    = new FormData(e.currentTarget);
+    const fd = new FormData(e.currentTarget);
     const email = fd.get('email') as string;
     setLoading(true);
     try {
@@ -140,8 +140,8 @@ export default function AuthPage() {
         {/* Tabs — hidden while in Forgot Password mode */}
         {!forgotMode && (
           <div className={styles.tabs}>
-            <button className={`${styles.tab} ${tab==='login'    ? styles.tabActive : ''}`} onClick={() => setTab('login')}>{t('auth.login')}</button>
-            <button className={`${styles.tab} ${tab==='register' ? styles.tabActive : ''}`} onClick={() => setTab('register')}>{t('auth.register')}</button>
+            <button className={`${styles.tab} ${tab === 'login' ? styles.tabActive : ''}`} onClick={() => setTab('login')}>{t('auth.login')}</button>
+            <button className={`${styles.tab} ${tab === 'register' ? styles.tabActive : ''}`} onClick={() => setTab('register')}>{t('auth.register')}</button>
           </div>
         )}
 
@@ -185,7 +185,7 @@ export default function AuthPage() {
               <input name="password" type="password" placeholder="••••••••" required />
             </div>
             <div style={{ textAlign: 'right', marginTop: -8, marginBottom: 8 }}>
-              <button type="button" onClick={() => setForgotMode(true)} style={{ background:'none', border:'none', cursor:'pointer', fontSize:12, color:'var(--accent)' }}>
+              <button type="button" onClick={() => setForgotMode(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: 'var(--accent)' }}>
                 {t('auth.forgot.link')}
               </button>
             </div>
@@ -193,26 +193,26 @@ export default function AuthPage() {
               {loading ? t('auth.loginBtnLoading') : t('auth.loginBtn')}
             </button>
 
-            <div style={{ display:'flex', alignItems:'center', gap:10, margin:'16px 0' }}>
-              <div style={{ flex:1, height:1, background:'var(--border2)' }} />
-              <span style={{ fontSize:12, color:'var(--text3)' }}>{t('auth.orContinueWith')}</span>
-              <div style={{ flex:1, height:1, background:'var(--border2)' }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '16px 0' }}>
+              <div style={{ flex: 1, height: 1, background: 'var(--border2)' }} />
+              <span style={{ fontSize: 12, color: 'var(--text3)' }}>{t('auth.orContinueWith')}</span>
+              <div style={{ flex: 1, height: 1, background: 'var(--border2)' }} />
             </div>
             <button
               type="button"
               onClick={handleGoogle}
               disabled={googleLoading}
               style={{
-                width:'100%', display:'flex', alignItems:'center', justifyContent:'center', gap:10,
-                padding:'11px 16px', borderRadius:10, border:'1px solid var(--border2)',
-                background:'var(--bg3)', color:'var(--text)', fontSize:14, fontWeight:600, cursor:'pointer',
+                width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+                padding: '11px 16px', borderRadius: 10, border: '1px solid var(--border2)',
+                background: 'var(--bg3)', color: 'var(--text)', fontSize: 14, fontWeight: 600, cursor: 'pointer',
               }}
             >
               <svg width="18" height="18" viewBox="0 0 48 48">
-                <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.9 32.4 29.4 35.5 24 35.5c-6.4 0-11.5-5.1-11.5-11.5S17.6 12.5 24 12.5c2.9 0 5.6 1.1 7.6 2.9l5.7-5.7C33.9 6.5 29.2 4.5 24 4.5 13.2 4.5 4.5 13.2 4.5 24S13.2 43.5 24 43.5 43.5 34.8 43.5 24c0-1.2-.1-2.4-.4-3.5z"/>
-                <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.6 18.9 12.5 24 12.5c2.9 0 5.6 1.1 7.6 2.9l5.7-5.7C33.9 6.5 29.2 4.5 24 4.5c-7.7 0-14.4 4.4-17.7 10.2z"/>
-                <path fill="#4CAF50" d="M24 43.5c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.4-4.5 2.2-7.2 2.2-5.4 0-9.9-3.1-11.3-7.5l-6.5 5C9.5 39 16.2 43.5 24 43.5z"/>
-                <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.7 2-2 3.8-3.7 5.1l6.2 5.2C41.4 35.4 43.5 30.1 43.5 24c0-1.2-.1-2.4-.4-3.5z"/>
+                <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.9 32.4 29.4 35.5 24 35.5c-6.4 0-11.5-5.1-11.5-11.5S17.6 12.5 24 12.5c2.9 0 5.6 1.1 7.6 2.9l5.7-5.7C33.9 6.5 29.2 4.5 24 4.5 13.2 4.5 4.5 13.2 4.5 24S13.2 43.5 24 43.5 43.5 34.8 43.5 24c0-1.2-.1-2.4-.4-3.5z" />
+                <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.6 18.9 12.5 24 12.5c2.9 0 5.6 1.1 7.6 2.9l5.7-5.7C33.9 6.5 29.2 4.5 24 4.5c-7.7 0-14.4 4.4-17.7 10.2z" />
+                <path fill="#4CAF50" d="M24 43.5c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.4-4.5 2.2-7.2 2.2-5.4 0-9.9-3.1-11.3-7.5l-6.5 5C9.5 39 16.2 43.5 24 43.5z" />
+                <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.7 2-2 3.8-3.7 5.1l6.2 5.2C41.4 35.4 43.5 30.1 43.5 24c0-1.2-.1-2.4-.4-3.5z" />
               </svg>
               {googleLoading ? t('auth.forgot.sending') : t('auth.google')}
             </button>
@@ -221,15 +221,16 @@ export default function AuthPage() {
             <div className={styles.demoBox}>
               <div className={styles.demoTitle}>Demo Accounts</div>
               {[
-                { role:'Admin',    email:'admin@domexpress.com',  pw:'sok123'  },
-                { role:'Driver1',   email:'driver@domexpress.com', pw:'dara123' },
-                { role:'Driver2',   email:'driver1@domexpress.com', pw:'nang123' },
-                { role:'Customer1', email:'dina123@gmail.com',     pw:'dina123'   },
-                { role:'Customer2', email:'fall@gmail.com',     pw:'fall123'   },
-                { role:'Employee', email:'pich.emlopyee@domexpress.com',     pw:'Pich@123'   },
+                { role: 'Admin(PP)', email: 'admin@domexpress.com', pw: 'sok123' },
+                { role: 'D(OMC)', email: 'driver@domexpress.com', pw: 'dara123' },
+                { role: 'D(PP)', email: 'driver1@domexpress.com', pw: 'nang123' },
+                { role: 'Customer1', email: 'dina123@gmail.com', pw: 'dina123' },
+                { role: 'Customer2', email: 'fall@gmail.com', pw: 'fall123' },
+                { role: 'E(OMC)', email: 'pich.emlopyee@domexpress.com', pw: 'Pich@123' },
+                { role: 'E(PP)', email: 'sela.employee@domexpress.com', pw: 'Sela@123' },
               ].map(d => (
                 <div key={d.role} className={styles.demoRow}>
-                  <span className={`${styles.demoRole} ${styles['demoRole'+d.role]}`}>{d.role}</span>
+                  <span className={`${styles.demoRole} ${styles['demoRole' + d.role]}`}>{d.role}</span>
                   <span className={styles.demoCreds}>{d.email}</span>
                   <button
                     type="button"
@@ -243,7 +244,7 @@ export default function AuthPage() {
                   >Fill</button>
                 </div>
               ))}
-            </div> 
+            </div>
           </form>
         )}
 
@@ -271,26 +272,26 @@ export default function AuthPage() {
             </button>
             <p className={styles.hint}>{t('auth.welcome')}</p>
 
-            <div style={{ display:'flex', alignItems:'center', gap:10, margin:'16px 0' }}>
-              <div style={{ flex:1, height:1, background:'var(--border2)' }} />
-              <span style={{ fontSize:12, color:'var(--text3)' }}>{t('auth.orContinueWith')}</span>
-              <div style={{ flex:1, height:1, background:'var(--border2)' }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '16px 0' }}>
+              <div style={{ flex: 1, height: 1, background: 'var(--border2)' }} />
+              <span style={{ fontSize: 12, color: 'var(--text3)' }}>{t('auth.orContinueWith')}</span>
+              <div style={{ flex: 1, height: 1, background: 'var(--border2)' }} />
             </div>
             <button
               type="button"
               onClick={handleGoogle}
               disabled={googleLoading}
               style={{
-                width:'100%', display:'flex', alignItems:'center', justifyContent:'center', gap:10,
-                padding:'11px 16px', borderRadius:10, border:'1px solid var(--border2)',
-                background:'var(--bg3)', color:'var(--text)', fontSize:14, fontWeight:600, cursor:'pointer',
+                width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+                padding: '11px 16px', borderRadius: 10, border: '1px solid var(--border2)',
+                background: 'var(--bg3)', color: 'var(--text)', fontSize: 14, fontWeight: 600, cursor: 'pointer',
               }}
             >
               <svg width="18" height="18" viewBox="0 0 48 48">
-                <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.9 32.4 29.4 35.5 24 35.5c-6.4 0-11.5-5.1-11.5-11.5S17.6 12.5 24 12.5c2.9 0 5.6 1.1 7.6 2.9l5.7-5.7C33.9 6.5 29.2 4.5 24 4.5 13.2 4.5 4.5 13.2 4.5 24S13.2 43.5 24 43.5 43.5 34.8 43.5 24c0-1.2-.1-2.4-.4-3.5z"/>
-                <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.6 18.9 12.5 24 12.5c2.9 0 5.6 1.1 7.6 2.9l5.7-5.7C33.9 6.5 29.2 4.5 24 4.5c-7.7 0-14.4 4.4-17.7 10.2z"/>
-                <path fill="#4CAF50" d="M24 43.5c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.4-4.5 2.2-7.2 2.2-5.4 0-9.9-3.1-11.3-7.5l-6.5 5C9.5 39 16.2 43.5 24 43.5z"/>
-                <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.7 2-2 3.8-3.7 5.1l6.2 5.2C41.4 35.4 43.5 30.1 43.5 24c0-1.2-.1-2.4-.4-3.5z"/>
+                <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.9 32.4 29.4 35.5 24 35.5c-6.4 0-11.5-5.1-11.5-11.5S17.6 12.5 24 12.5c2.9 0 5.6 1.1 7.6 2.9l5.7-5.7C33.9 6.5 29.2 4.5 24 4.5 13.2 4.5 4.5 13.2 4.5 24S13.2 43.5 24 43.5 43.5 34.8 43.5 24c0-1.2-.1-2.4-.4-3.5z" />
+                <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.6 18.9 12.5 24 12.5c2.9 0 5.6 1.1 7.6 2.9l5.7-5.7C33.9 6.5 29.2 4.5 24 4.5c-7.7 0-14.4 4.4-17.7 10.2z" />
+                <path fill="#4CAF50" d="M24 43.5c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.4-4.5 2.2-7.2 2.2-5.4 0-9.9-3.1-11.3-7.5l-6.5 5C9.5 39 16.2 43.5 24 43.5z" />
+                <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.7 2-2 3.8-3.7 5.1l6.2 5.2C41.4 35.4 43.5 30.1 43.5 24c0-1.2-.1-2.4-.4-3.5z" />
               </svg>
               {googleLoading ? t('auth.forgot.sending') : t('auth.google')}
             </button>

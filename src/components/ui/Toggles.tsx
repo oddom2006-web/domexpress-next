@@ -1,5 +1,4 @@
 'use client';
-// src/components/ui/Toggles.tsx
 import { useTheme }    from '@/context/ThemeContext';
 import { useLanguage } from '@/context/LanguageContext';
 import styles from './toggles.module.css';

@@ -1,9 +1,9 @@
 'use client';
 import dynamic from 'next/dynamic';
-  const LocationPicker = dynamic(() => import('@/components/shared/LocationPicker'), {
-    ssr: false,
-    loading: () => <div style={{ height: 220, borderRadius: 10, background: 'var(--bg3)' }} />,
-  });
+const LocationPicker = dynamic(() => import('@/components/shared/LocationPicker'), {
+  ssr: false,
+  loading: () => <div style={{ height: 220, borderRadius: 10, background: 'var(--bg3)' }} />,
+});
 import { useState, useMemo, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
@@ -339,15 +339,15 @@ function EmployeeCreate({ myBranch, employeeUid }: { myBranch: string; employeeU
   const [customerMode, setCustomerMode] = useState<'search' | 'guest'>('search');
   const [customerQuery, setCustomerQuery] = useState('');
   const [selectedCustomer, setSelectedCustomer] = useState<User | null>(null);
-  const [senderPin,   setSenderPin]   = useState<{ lat: number; lng: number } | null>(null);
+  const [senderPin, setSenderPin] = useState<{ lat: number; lng: number } | null>(null);
   const [receiverPin, setReceiverPin] = useState<{ lat: number; lng: number } | null>(null);
-  const [showPins,     setShowPins]   = useState(false); // collapsed by default, keeps the form uncluttered
+  const [showPins, setShowPins] = useState(false); // collapsed by default, keeps the form uncluttered
 
   const [form, setForm] = useState({
     guestName: '', guestPhone: '',
     receiverName: '', phone: '', address: '', receiverBranch: '',
     packageType: 'Document', weight: '0.5',
-    
+
   });
   const [serviceType, setServiceType] = useState<ServiceType>('consolidated');
   const [payment, setPayment] = useState<PaymentMethod>('cod');
@@ -361,11 +361,11 @@ function EmployeeCreate({ myBranch, employeeUid }: { myBranch: string; employeeU
   }, [customers, customerQuery]);
 
   const fromBranch = branches.find(b => b.name === myBranch);
-  const toBranch   = branches.find(b => b.name === form.receiverBranch);
-  const weightNum  = parseFloat(form.weight) || 0;
+  const toBranch = branches.find(b => b.name === form.receiverBranch);
+  const weightNum = parseFloat(form.weight) || 0;
   // Pin, when set, is more precise than the branch — prefer it for pricing
-  const fromPoint = senderPin   ?? fromBranch;
-  const toPoint   = receiverPin ?? toBranch;
+  const fromPoint = senderPin ?? fromBranch;
+  const toPoint = receiverPin ?? toBranch;
   const { price, distanceKm } = useMemo(
     () => calculatePrice(weightNum, fromPoint, toPoint, serviceType),
     [weightNum, fromPoint, toPoint, serviceType]
@@ -418,7 +418,7 @@ function EmployeeCreate({ myBranch, employeeUid }: { myBranch: string; employeeU
   const PAYMENT_OPTIONS: { id: PaymentMethod; icon: React.ReactNode; label: string }[] = [
     { id: 'cod', icon: <DollarSign size={20} />, label: t('customer.payment.cod') },
     { id: 'qr', icon: <Smartphone size={20} />, label: t('customer.payment.qr') },
-    { id: 'card', icon: <CreditCard size={20    } />, label: t('customer.payment.card') },
+    { id: 'card', icon: <CreditCard size={20} />, label: t('customer.payment.card') },
   ];
 
   return (
@@ -506,44 +506,44 @@ function EmployeeCreate({ myBranch, employeeUid }: { myBranch: string; employeeU
           </Field>
           <Field label={t('customer.field.weight')}><input className={styles.input} type="number" step="0.1" min="0.1" value={form.weight} onChange={e => set('weight', e.target.value)} required /></Field>
           <div className={styles.colSpan2}>
-    <button
-      type="button"
-      onClick={() => setShowPins(v => !v)}
-      style={{
-        fontSize: 12, color: 'var(--accent)', background: 'none', border: 'none',
-        cursor: 'pointer', padding: 0, marginBottom: showPins ? 10 : 0,
-      }}
-    >
-      📍 {showPins ? t('customer.location.hidePins') : t('customer.location.togglePin')}
-    </button>
+            <button
+              type="button"
+              onClick={() => setShowPins(v => !v)}
+              style={{
+                fontSize: 12, color: 'var(--accent)', background: 'none', border: 'none',
+                cursor: 'pointer', padding: 0, marginBottom: showPins ? 10 : 0,
+              }}
+            >
+              📍 {showPins ? t('customer.location.hidePins') : t('customer.location.togglePin')}
+            </button>
 
-    {showPins && (
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
-        <div>
-          <label className={styles.fieldLabel} style={{ display: 'block', marginBottom: 6 }}>
-            {t('customer.location.senderPin')}
-          </label>
-          <LocationPicker
-            lat={senderPin?.lat} lng={senderPin?.lng}
-            defaultCenter={fromBranch?.lat != null ? [fromBranch.lat, fromBranch.lng!] : undefined}
-            onChange={(lat, lng) => setSenderPin({ lat, lng })}
-            useMyLocationLabel={t('customer.location.useMyLocation')}
-          />
-        </div>
-        <div>
-          <label className={styles.fieldLabel} style={{ display: 'block', marginBottom: 6 }}>
-            {t('customer.location.receiverPin')}
-          </label>
-          <LocationPicker
-            lat={receiverPin?.lat} lng={receiverPin?.lng}
-            defaultCenter={toBranch?.lat != null ? [toBranch.lat, toBranch.lng!] : undefined}
-            onChange={(lat, lng) => setReceiverPin({ lat, lng })}
-            useMyLocationLabel={t('customer.location.useMyLocation')}
-          />
-        </div>
-      </div>
-    )}
-  </div>
+            {showPins && (
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+                <div>
+                  <label className={styles.fieldLabel} style={{ display: 'block', marginBottom: 6 }}>
+                    {t('customer.location.senderPin')}
+                  </label>
+                  <LocationPicker
+                    lat={senderPin?.lat} lng={senderPin?.lng}
+                    defaultCenter={fromBranch?.lat != null ? [fromBranch.lat, fromBranch.lng!] : undefined}
+                    onChange={(lat, lng) => setSenderPin({ lat, lng })}
+                    useMyLocationLabel={t('customer.location.useMyLocation')}
+                  />
+                </div>
+                <div>
+                  <label className={styles.fieldLabel} style={{ display: 'block', marginBottom: 6 }}>
+                    {t('customer.location.receiverPin')}
+                  </label>
+                  <LocationPicker
+                    lat={receiverPin?.lat} lng={receiverPin?.lng}
+                    defaultCenter={toBranch?.lat != null ? [toBranch.lat, toBranch.lng!] : undefined}
+                    onChange={(lat, lng) => setReceiverPin({ lat, lng })}
+                    useMyLocationLabel={t('customer.location.useMyLocation')}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
           <div className={styles.colSpan2}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 18px', borderRadius: 10, background: 'var(--accent-dim)', border: '1px solid rgba(240,165,0,.3)' }}>
               <div>

@@ -1,40 +1,40 @@
 'use client';
 // src/components/layout/DashboardLayout.tsx
 import React, { useState } from 'react';
-import { useRouter }       from 'next/navigation';
-import { useAuth }         from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 import { useNotifications } from '@/hooks';
-import toast               from 'react-hot-toast';
-import styles              from './dashboard.module.css';
+import toast from 'react-hot-toast';
+import styles from './dashboard.module.css';
 import { ThemeToggle, LanguageToggle } from '@/components/ui/Toggles';
-import { useLanguage } from '@/context/LanguageContext'; 
+import { useLanguage } from '@/context/LanguageContext';
 import Image from 'next/image';
 
 export interface NavItem {
-    id:     string;
-    icon:   React.ReactNode;
-    label:  string;
-    notif?: boolean;
+  id: string;
+  icon: React.ReactNode;
+  label: string;
+  notif?: boolean;
 }
 
 interface Props {
-  navItems:    NavItem[];
-  active:      string;
-  onNavigate:  (id: string) => void;
-  pageTitle:   string;
-  pageSub?:    string;
-  children:    React.ReactNode;
+  navItems: NavItem[];
+  active: string;
+  onNavigate: (id: string) => void;
+  pageTitle: string;
+  pageSub?: string;
+  children: React.ReactNode;
   topbarRight?: React.ReactNode;
 }
 
 export default function DashboardLayout({
   navItems, active, onNavigate, pageTitle, pageSub, children, topbarRight
 }: Props) {
-  const { user, logout }  = useAuth();
-  const { t }              = useLanguage();
+  const { user, logout } = useAuth();
+  const { t } = useLanguage();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { unread }        = useNotifications(user?.uid ?? '');
-  const router            = useRouter();
+  const { unread } = useNotifications(user?.uid ?? '');
+  const router = useRouter();
 
   const handleLogout = async () => {
     await logout();
@@ -43,7 +43,7 @@ export default function DashboardLayout({
   };
 
   const dateStr = new Date().toLocaleDateString('en-US', {
-    weekday:'short', month:'short', day:'numeric', year:'numeric'
+    weekday: 'short', month: 'short', day: 'numeric', year: 'numeric'
   });
 
   return (
@@ -56,11 +56,11 @@ export default function DashboardLayout({
         <div className={styles.sidebarLogo}>
           <div className={styles.logoIcon}>
             <Image
-                                src="/assets/images/logo.png"
-                                alt="DomExpress Logo"
-                                width={35}
-                                height={30}
-                            />
+              src="/assets/images/logo.png"
+              alt="DomExpress Logo"
+              width={35}
+              height={30}
+            />
           </div>
           <div>
             <div className={styles.logoText}>DOM EXPRESS</div>

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { ThemeToggle, LanguageToggle } from '@/components/ui/Toggles';
 import { useLanguage } from '@/context/LanguageContext';
 import LoadingScreen from '@/components/ui/LoadingScreen';
-import { Truck, Lock,MapPin,} from 'lucide-react';
+import { Truck, Lock, MapPin, } from 'lucide-react';
 
 const BOOK_FORM = 'https://forms.gle/V8r7aFGMhThujFmJ8';
 
