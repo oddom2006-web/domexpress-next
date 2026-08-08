@@ -1,3 +1,6 @@
+// this file provides utility functions for formatting dates, calculating prices, and other common tasks used throughout the app.
+//  It includes functions for formatting ISO date strings, calculating great-circle distances, 
+// and computing delivery prices based on weight, distance, and service type.
 export function fmtDate(iso?: string | null): string {
   if (!iso) return '–';
   try {

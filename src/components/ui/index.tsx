@@ -1,6 +1,7 @@
 'use client';
 // src/components/ui/index.tsx
 // All reusable UI primitives
+//this file exports a set of reusable UI components that can be used throughout the app. It includes components for status badges, stat cards, spinners, empty states, modals, form fields, buttons, search bars, cards, table wrappers, and a confirm dialog hook. Each component is designed to be flexible and customizable, allowing developers to easily integrate them into different parts of the application while maintaining a consistent look and feel.
 
 import React, { useState, useEffect, useRef } from 'react';
 import { STATUS_LABELS, type OrderStatus } from '@/types';

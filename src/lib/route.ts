@@ -1,4 +1,5 @@
 // src/lib/route.ts
+// this file provides a function to optimize the delivery route for a set of orders, given the available branches and the starting branch. It clusters orders by their destination (either a pinned location or a branch) and then orders the stops in a greedy nearest-neighbor fashion to minimize travel distance. The result includes the ordered stops, total distance, and whether coordinates were available for routing.
 import type { Order, Branch } from '@/types';
 import { haversineKm } from './utils';
 

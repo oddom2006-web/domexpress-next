@@ -217,7 +217,7 @@ export default function AuthPage() {
               {googleLoading ? t('auth.forgot.sending') : t('auth.google')}
             </button>
 
-            {/* Demo accounts */}
+            {/* Demo accounts 
             <div className={styles.demoBox}>
               <div className={styles.demoTitle}>Demo Accounts</div>
               {[
@@ -245,6 +245,7 @@ export default function AuthPage() {
                 </div>
               ))}
             </div>
+            */}
           </form>
         )}
 

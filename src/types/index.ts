@@ -1,3 +1,4 @@
+// this page contains all the types used in the project, so they can be imported from a single location
 export type UserRole = 'admin' | 'driver' | 'customer' | 'employee';
 
 export type OrderStatus =

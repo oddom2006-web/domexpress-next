@@ -1,3 +1,4 @@
+// this file uses formatted cookies to store the user's role for middleware access control, so that we can protect /admin, /driver, /customer routes on the server side (Edge) without needing to fetch the full user profile from Firestore. The cookie is set after login and cleared on logout. It is not a security measure, just a convenience for routing.
 'use client';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import {

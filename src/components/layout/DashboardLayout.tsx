@@ -1,5 +1,6 @@
 'use client';
 // src/components/layout/DashboardLayout.tsx
+// This file defines the DashboardLayout component, which provides a consistent layout for the dashboard pages of the app. It includes a sidebar with navigation items, a topbar with the current date and theme/language toggles, and a main content area where the page content is rendered. The layout is responsive and supports mobile view with a collapsible sidebar.
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
