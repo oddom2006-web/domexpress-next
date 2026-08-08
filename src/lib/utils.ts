@@ -27,18 +27,21 @@ export function clsx(...classes: (string | undefined | null | false)[]): string 
 //                  onto one driver/truck run — cheaper since the trip cost is shared.
 export const PRICING = {
   direct: {
-    baseFee:  1.50,
-    perKg:    0.60,
-    perKm:    0.15,
-    minPrice: 2.00,
-  },
-  consolidated: {
-    baseFee:  0.50,
-    perKg:    0.35,
-    perKm:    0.05,
+    baseFee: 1.50,
+    perKg: 0.60,
+    perKm: 0.15,
     minPrice: 1.00,
   },
+
+  consolidated: {
+    baseFee: 1.00,
+    perKg: 0.35,
+    perKm: 0.005,
+    minPrice: 0.50,
+  },
 };
+
+// Price = Base Fee + (Weight × Per Kg) + (Distance × Per Km)
 
 /** Great-circle distance between two lat/lng points, in kilometers. */
 export function haversineKm(lat1: number, lng1: number, lat2: number, lng2: number): number {

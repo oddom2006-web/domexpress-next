@@ -1,5 +1,4 @@
 'use client';
-// src/components/ui/LoadingScreen.tsx
 import styles from './LoadingScreen.module.css';
 
 export default function LoadingScreen({ message }: { message?: string }) {
