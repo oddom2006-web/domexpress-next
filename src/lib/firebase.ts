@@ -3,12 +3,12 @@ import { getAuth }      from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey:            'AIzaSyCQr8utoyrPkOqdSa_Gr-Xq_1Jrw1I1xVg',
-  authDomain:        'dom-express-a84da.firebaseapp.com',
-  projectId:         'dom-express-a84da',
-  storageBucket:     'dom-express-a84da.firebasestorage.app',
-  messagingSenderId: '659512197286',
-  appId:             '1:659512197286:web:5b1ae352597349a8743467',
+  apiKey:            '.........',
+  authDomain:        '.........',
+  projectId:         '.........',
+  storageBucket:     '.........',
+  messagingSenderId: '.........',
+  appId:             '..........',
 };
 
 // Singleton — prevent re-initializing on hot reload
